@@ -728,17 +728,33 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+
+
+------
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-	if vim.v.shell_error ~= 0 then
-		error("Error cloning lazy.nvim:\n" .. out)
-	end
+  vim.api.nvim_err_writeln("CRITICAL: lazy.nvim missing from " .. lazypath)
+  vim.api.nvim_err_writeln("Pre-baked plugins were not found in this container image.")
+  return
 end
 
-local rtp = vim.opt.rtp
-rtp:prepend(lazypath)
+vim.opt.rtp:prepend(lazypath)
+
+----
+
+-- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- if not (vim.uv or vim.loop).fs_stat(lazypath) then
+-- 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+-- 	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+-- 	if vim.v.shell_error ~= 0 then
+-- 		error("Error cloning lazy.nvim:\n" .. out)
+-- 	end
+-- end
+
+-- local rtp = vim.opt.rtp
+-- rtp:prepend(lazypath)
 
 require("lazy").setup({
 	-- 'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
