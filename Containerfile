@@ -26,8 +26,8 @@ COPY --chown=nvim-user:nvim-user ./nvim /home/nvim-user/.config/nvim
 RUN git clone --filter=blob:none https://github.com/folke/lazy.nvim.git \
     --branch=stable /home/nvim-user/.local/share/nvim/lazy/lazy.nvim
 
-# 6. Synchronize plugins synchronously and wait until completely finished
-RUN nvim --headless "+Lazy! install" "+Lazy! sync" +qa
+# 6. FORCE Neovim to stay open until all plugins are 100% downloaded
+RUN nvim --headless -c "autocmd User LazyDone qall" -c "Lazy! sync"
 
 # 7. Create a permanent system symlink for 'vim' -> 'nvim' (run as root)
 USER root
