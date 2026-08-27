@@ -22,6 +22,10 @@ WORKDIR /home/nvim-user
 # 5. Copy configuration into the user's home directory
 COPY --chown=nvim-user:nvim-user ./nvim /home/nvim-user/.config/nvim
 
+# 5.5 NEW: Explicitly download lazy.nvim before starting Neovim
+RUN git clone --filter=blob:none https://github.com/folke/lazy.nvim.git \
+    --branch=stable /home/nvim-user/.local/share/nvim/lazy/lazy.nvim
+
 # 6. Synchronize plugins synchronously and wait until completely finished
 RUN nvim --headless "+Lazy! install" "+Lazy! sync" +qa
 
