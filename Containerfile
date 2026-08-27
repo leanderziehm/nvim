@@ -20,4 +20,6 @@ COPY --chown=nvim-user:nvim-user ./nvim /home/nvim-user/.config/nvim
 # 6. Pre-install/headless sync plugins into the user's home path
 RUN nvim --headless "+Lazy! sync" +qa
 
-WORKDIR /workspace
+RUN alias vim=nvim
+
+WORKDIR /nvim-workspace
