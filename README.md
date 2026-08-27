@@ -1,8 +1,9 @@
 # nvim
 
-todo is there any way to have defaults there not broken links
-
+## Run
 ```
+mkdir -p ~/my-nvim ~/.config/my-nvim-overrides && touch ~/.config/my-nvim-overrides/overrides.lua
+
 podman run --rm -it \
   --network none \
   --read-only \
@@ -10,9 +11,7 @@ podman run --rm -it \
   --security-opt=no-new-privileges \
   --userns=keep-id \
   --tmpfs /tmp:rw,noexec,nosuid \
-  # Mount ONLY the single override file as read-only:
   -v ~/.config/my-nvim-overrides/overrides.lua:/home/editor/.config/nvim/overrides.lua:ro \
-  # Workspace bind mount:
-  -v /path/to/my-project:/workspace:rw \
-  my-registry.com/my-hardened-nvim:latest nvim .
+  -v ~/my-nvim:/workspace:rw \
+  ghcr.io/leanderziehm/nvim:latest
 ```
