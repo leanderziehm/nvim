@@ -1,6 +1,11 @@
-mkdir -p ~/nvim-workspace ~/.config/nvim-overrides && touch ~/.config/nvim-overrides/overrides.lua
+#!/usr/bin/env bash
+set -e
 
-podman volume create nvim-state-vol
+TAG="${1:-latest}"
+IMAGE="ghcr.io/leanderziehm/nvim:${TAG}"
+
+mkdir -p ~/nvim-workspace ~/.config/nvim-overrides
+touch ~/.config/nvim-overrides/overrides.lua
 
 podman run --rm -it \
   --pull always \
@@ -14,4 +19,4 @@ podman run --rm -it \
   -v nvim-state-vol:/home/nvim-user/.local/state/nvim:rw \
   -v nvim-state-vol:/home/nvim-user/.local/share/nvim:rw \
   -v ~/nvim-workspace:/nvim-workspace:rw \
-  ghcr.io/leanderziehm/nvim:latest
+  "$IMAGE"
