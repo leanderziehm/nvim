@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 # 1. Install system packages cleanly
-RUN apk add --no-cache nvim git ripgrep build-base
+RUN apk add --no-cache neovim git ripgrep build-base
 
 # 2. Create unprivileged user upfront
 RUN adduser -D -u 1000 nvim-user
